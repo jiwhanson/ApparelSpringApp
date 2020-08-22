@@ -15,8 +15,8 @@ public class LoadDatabase {
 	@Bean
 	CommandLineRunner initDatabase(ApparelRepository apparelRepository) {
 		return args -> {
-			apparelRepository.save(new Apparel("Camo Head White/Black", "Bape", Size.L, Type.CLOTHING));
-			apparelRepository.save(new Apparel("Air Force 1 White Low", "Nike", Size.SZ9, Type.FOOTWEAR));
+			apparelRepository.save(new Apparel("Camo Head White/Black", "Bape", "L", "CLOTHING"));
+			apparelRepository.save(new Apparel("Air Force 1 White Low", "Nike", "SZ9", "FOOTWEAR"));
 			apparelRepository.findAll().forEach(apparel -> log.info("Loaded: " + apparel));
 		};
 	}

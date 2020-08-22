@@ -47,8 +47,17 @@ public class ApparelController {
 	}
 	
 	@PutMapping("/apparel/{id}")
-	ResponseEntity<?> replaceApparel(@RequestBody Apparel apparel, @PathVariable Long id) {
-		return null;
+	ResponseEntity<?> replaceApparel(@RequestBody Apparel newApparel, @PathVariable Long id) {
+		Apparel updatedApparel = repository.findById(id).map(apparel -> {
+			apparel.setName(newApparel.getName());
+			apparel.setBrand(newApparel.getBrand());
+			apparel.setSize(newApparel.getSize());
+			apparel.setType(newApparel.getType());
+			return repository.save(apparel);}).orElseGet(() -> {
+				newApparel.setId(id);
+				return repository.save(newApparel);});
+		EntityModel<Apparel> entityModel = assembler.toModel(updatedApparel);
+		return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
 	}
 	
 	@DeleteMapping("/apparel/{id}")

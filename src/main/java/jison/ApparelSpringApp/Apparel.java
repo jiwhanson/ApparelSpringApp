@@ -12,12 +12,12 @@ public class Apparel {
 	private @Id @GeneratedValue long id;
 	private String name;
 	private String brand;
-	private Size size;
-	private Type type;
+	private String size;
+	private String type;
 	
 	Apparel() {}
 	
-	Apparel(String name, String brand, Size size, Type type) {
+	Apparel(String name, String brand, String size, String type) {
 		this.name = name;
 		this.brand = brand;
 		this.size = size;
@@ -36,11 +36,11 @@ public class Apparel {
 		return brand;
 	}
 
-	public Size getSize() {
+	public String getSize() {
 		return size;
 	}
 
-	public Type getType() {
+	public String getType() {
 		return type;
 	}
 
@@ -56,11 +56,11 @@ public class Apparel {
 		this.brand = brand;
 	}
 
-	public void setSize(Size size) {
+	public void setSize(String size) {
 		this.size = size;
 	}
 
-	public void setType(Type type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	
@@ -72,7 +72,7 @@ public class Apparel {
 			return false;
 		Apparel apparel = (Apparel) o;
 		return Objects.equals(this.name, apparel.name) && Objects.equals(this.brand, apparel.brand) &&
-				(this.size == apparel.size) && (this.type == apparel.type);
+				Objects.equals(this.size, apparel.size) && Objects.equals(this.type, apparel.type) ;
 	}
 	
 	@Override
