@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,13 +35,15 @@ public class ApparelController {
 	}
 
 	@PostMapping("/apparel")
-	ResponseEntity<?> newApparel(@RequestBody Apparel apparel) {
-		return null;
+	ResponseEntity<?> newApparel(@RequestBody Apparel newApparel) {
+		EntityModel<Apparel> entityModel = assembler.toModel(repository.save(newApparel));
+		return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
 	}
 	
 	@GetMapping("/apparel/{id}")
 	EntityModel<Apparel> one(@PathVariable Long id) {
-		return null;
+		Apparel apparel = repository.findById(id).orElseThrow(() -> new ApparelNotFoundException(id));
+		return assembler.toModel(apparel);
 	}
 	
 	@PutMapping("/apparel/{id}")
@@ -50,6 +53,7 @@ public class ApparelController {
 	
 	@DeleteMapping("/apparel/{id}")
 	ResponseEntity<?> delete(@PathVariable Long id) {
-		return null;
+		repository.deleteById(id);
+		return ResponseEntity.noContent().build();
 	}
 }
